@@ -13,6 +13,19 @@ const [items, setItems] = useState([
 	{ itemName: 'item 3', quantity: 2, isSelected: false },
 ]);
 
+const handleAddButtonClick = () => {
+	const newItem = {
+		itemName: inputValue,
+		quantity: 1,
+		isSelected: false,
+	};
+
+	const newItems = [...items, newItem];
+
+	setItems(newItems);
+	setInputValue('');
+};
+
 const [inputValue, setInputValue] = useState('');
 
 function App() {
@@ -22,7 +35,7 @@ function App() {
     <>
     <div className='add-item-box'>
     <input value={inputValue} onChange={(event) => setInputValue(event.target.value)} className='add-item-input' placeholder='Add an item...' />
-	<FontAwesomeIcon icon={faPlus} />
+	<FontAwesomeIcon icon={faPlus} onClick={() => handleAddButtonClick()} />
 </div>
 
     <div className='item-list'>
