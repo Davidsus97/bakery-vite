@@ -13,6 +13,14 @@ const [items, setItems] = useState([
 	{ itemName: 'item 3', quantity: 2, isSelected: false },
 ]);
 
+const toggleComplete = (index) => {
+	const newItems = [...items];
+
+	newItems[index].isSelected = !newItems[index].isSelected;
+
+	setItems(newItems);
+};
+
 const handleAddButtonClick = () => {
 	const newItem = {
 		itemName: inputValue,
