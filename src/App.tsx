@@ -13,12 +13,40 @@ const [items, setItems] = useState([
 	{ itemName: 'item 3', quantity: 2, isSelected: false },
 ]);
 
+const [totalItemCount, setTotalItemCount] = useState(6);
+
+const calculateTotal = () => {
+	const totalItemCount = items.reduce((total, item) => {
+		return total + item.quantity;
+	}, 0);
+
+	setTotalItemCount(totalItemCount);
+};
+
+const handleQuantityIncrease = (index) => {
+	const newItems = [...items];
+
+	newItems[index].quantity++;
+
+	setItems(newItems);
+	calculateTotal();
+};
+
 const toggleComplete = (index) => {
 	const newItems = [...items];
 
 	newItems[index].isSelected = !newItems[index].isSelected;
 
 	setItems(newItems);
+};
+
+const handleQuantityDecrease = (index) => {
+	const newItems = [...items];
+
+	newItems[index].quantity--;
+
+	setItems(newItems);
+	calculateTotal();
 };
 
 const handleAddButtonClick = () => {
@@ -32,6 +60,7 @@ const handleAddButtonClick = () => {
 
 	setItems(newItems);
 	setInputValue('');
+	calculateTotal();
 };
 
 const [inputValue, setInputValue] = useState('');
@@ -49,7 +78,7 @@ function App() {
     <div className='item-list'>
       	{items.map((item, index) => (
 		<div className='item-container'>
-			<div className='item-name'>
+			<div className='item-name' onClick={() => toggleComplete(index)}>
 				{item.isSelected ? (
 					<>
 						<FontAwesomeIcon icon={faCheckCircle} />
@@ -68,9 +97,10 @@ function App() {
 				</button>
 				<span> {item.quantity} </span>
 				<button>
-					<FontAwesomeIcon icon={faChevronRight} />
-				</button>
+	             <FontAwesomeIcon icon={faChevronRight} onClick={() => handleQuantityIncrease(index)} />
+                </button>
 			</div>
+			<div className='total'>Total: {totalItemCount}</div>
 		</div>
 	))}
 </div>
